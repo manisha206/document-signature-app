@@ -1,31 +1,30 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+Step 6: Connect Route to server.js
+
+Open:
+
+server/server.js
+
+Add this import near the top:
+
+const documentRoutes = require("./routes/documentRoutes");
+
+Example:
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const documentRoutes = require("./routes/documentRoutes");
 
-dotenv.config();
+Add this route before PORT:
 
-connectDB();
+app.use("/api/docs", documentRoutes);
 
-const app = express();
+Final section:
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Test Route
 app.get("/", (req, res) => {
   res.send("Server Running");
 });
 
-// Authentication Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/docs", documentRoutes);
 
-// Server Port
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
